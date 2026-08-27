@@ -1,26 +1,178 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Ponya brand palette — healing teal-greens, warm sand, ember for urgency */
+  --color-cream: #faf6ef;
+  --color-parchment: #f4eee2;
+  --color-sand: #ece4d3;
+
+  --color-pine-50: #eef7f2;
+  --color-pine-100: #d8ece1;
+  --color-pine-200: #b3d9c6;
+  --color-pine-300: #84bfa4;
+  --color-pine-400: #4f9f80;
+  --color-pine-500: #2b8567;
+  --color-pine-600: #1e6b53;
+  --color-pine-700: #185544;
+  --color-pine-800: #134437;
+  --color-pine-900: #0e362d;
+  --color-pine-950: #082420;
+
+  --color-ember-50: #fdf1ef;
+  --color-ember-100: #fadcd7;
+  --color-ember-400: #e06852;
+  --color-ember-500: #cf4530;
+  --color-ember-600: #b23522;
+  --color-ember-700: #8f2a1c;
+
+  --color-gold-300: #f5c877;
+  --color-gold-400: #eeb055;
+  --color-gold-500: #e29a35;
+  --color-gold-600: #c07d22;
+
+  --color-ink: #17251f;
+  --color-ink-soft: #51625a;
+  --color-ink-faint: #7d8c84;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), Georgia, "Times New Roman", serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5.5rem;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+::selection {
+  background: var(--color-pine-200);
+  color: var(--color-pine-900);
+}
+
+/* Scroll reveal ---------------------------------------------------------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(26px);
+  transition:
+    opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
+    transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+.reveal-in {
+  opacity: 1;
+  transform: none;
+}
+
+/* Floating hero chips ---------------------------------------------------- */
+@keyframes ponya-float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+.float-slow {
+  animation: ponya-float 6s ease-in-out infinite;
+}
+.float-slower {
+  animation: ponya-float 8s ease-in-out 1.2s infinite;
+}
+
+/* Emergency pulse ring ---------------------------------------------------- */
+@keyframes ponya-pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(207, 69, 48, 0.45);
+  }
+  70% {
+    box-shadow: 0 0 0 12px rgba(207, 69, 48, 0);
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(207, 69, 48, 0);
+  }
+}
+.pulse-ember {
+  animation: ponya-pulse 2.4s ease-out infinite;
+}
+
+/* Subtle dotted texture for dark bands ----------------------------------- */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.08) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Custom scrollbar (lists, menus) ----------------------------------------- */
+.nice-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-pine-300) transparent;
+}
+.nice-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.nice-scroll::-webkit-scrollbar-thumb {
+  background: var(--color-pine-300);
+  border-radius: 999px;
+}
+
+/* Accessible focus -------------------------------------------------------- */
+:focus-visible {
+  outline: 3px solid var(--color-gold-500);
+  outline-offset: 2px;
+  border-radius: 6px;
+}
+
+/* Form polish ------------------------------------------------------------- */
+.field {
+  width: 100%;
+  border-radius: 0.9rem;
+  border: 1.5px solid var(--color-sand);
+  background: #fff;
+  padding: 0.72rem 0.95rem;
+  font-size: 0.925rem;
+  color: var(--color-ink);
+  transition:
+    border-color 0.2s,
+    box-shadow 0.2s;
+}
+.field::placeholder {
+  color: var(--color-ink-faint);
+}
+.field:focus {
+  outline: none;
+  border-color: var(--color-pine-500);
+  box-shadow: 0 0 0 4px rgba(43, 133, 103, 0.14);
+}
+.field-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  color: var(--color-pine-800);
+  margin-bottom: 0.35rem;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+  .float-slow,
+  .float-slower,
+  .pulse-ember {
+    animation: none;
+  }
 }

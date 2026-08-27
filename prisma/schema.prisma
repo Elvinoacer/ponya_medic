@@ -1,0 +1,29 @@
+// Ponya Medical Centre — appointment intake database
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:../db/custom.db"
+}
+
+model Appointment {
+  id            String   @id @default(cuid())
+  refCode       String   @unique
+  fullName      String
+  dateOfBirth   String
+  sex           String
+  phone         String
+  residence     String
+  idNumber      String?
+  shaNumber     String?
+  department    String
+  preferredDate String
+  preferredTime String
+  clinicianNote String?
+  complaint     String
+  consent       Boolean  @default(false)
+  status        String   @default("pending")
+  createdAt     DateTime @default(now())
+}
